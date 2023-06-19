@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import { AvatarWrapper, BackgroundImage, FollowBtn, InfoWrapper, Line, LogoWrapper, StyledLi, UserAvatar, UserInfo } from "./UserCard.styled"
 import { LogoIcon } from "icons/Logo"
 import { IconCircle } from "icons/Circle"
 
 
 
-export const UserCard = ({user: {id, user, tweets, followers, avatar}})=> {
+export const UserCard = ({users, user: {id, user, tweets, followers, avatar}})=> {
     const [followersNum, setFollowersNum] = useState(followers);
     const [follow, setFollow] = useState(false);
-    const [userInfo, setUserInfo] = useState(() => {
-        return JSON.parse(localStorage.getItem(`${id}`)) ?? {id, user, tweets, followers, avatar};
-      });
+    const [usersArr, setUsersArr] = useState(users)
 
-    useEffect(()=> {
-        localStorage.setItem(`${id}`, JSON.stringify(userInfo))
-    }, [id, userInfo])
+    useEffect(() => {
+        localStorage.setItem('users', JSON.stringify(usersArr));
+
+    }, [usersArr])
 
 const handleFollow = () => {
     if(!follow) {
@@ -24,7 +23,6 @@ const handleFollow = () => {
         setFollow(false);
         setFollowersNum(followersNum - 1)
     }
-    setUserInfo({id, user, tweets, followersNum, avatar, follow});
 }
 
     return(

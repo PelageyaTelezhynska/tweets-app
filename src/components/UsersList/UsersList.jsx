@@ -8,24 +8,25 @@ const usersPerPage = 3;
 
 export const UsersList = () => {
     const [next, setNext] = useState(usersPerPage);
-    // const [users, setUsers] = useState(() => {
-    //     return JSON.parse(localStorage.getItem('users')) ?? [];
-    //   })
-      const [users, setUsers] = useState([])
+    const [users, setUsers] = useState(() => {
+        return JSON.parse(localStorage.getItem('users')) ?? [];
+      })
 
     useEffect(() => {
         async function getUsers() {
             try {
                 const fetchedUsers = await fetchUsers()
+                if(fetchedUsers.length === 0) {
+                    alert('Sorry, we did not find any user')
+                }
                 setUsers(fetchedUsers);
                 console.log(fetchedUsers);
-                // localStorage.setItem('users', JSON.stringify(users))
             } catch (error) {
-                console.log(error.message);
+                alert('Sorry, something went wrong. Try reloading the page!')
             }
         }
         getUsers()
-    }, [users])
+    }, [])
 
     const handleMoreUsers = () => {
         setNext(next + usersPerPage);
@@ -37,7 +38,7 @@ export const UsersList = () => {
             <Wrapper>
             <StyledNavLink to='/' key='home'>GO BACK</StyledNavLink>
             <Box>
-                {users?.slice(0, next)?.map(item => <UserCard key={item.id} user={item}/>)}
+                {users?.slice(0, next)?.map(item => <UserCard key={item.id} user={item} users={users}/>)}
             </Box>
             <StyledButton type='button' onClick={handleMoreUsers}>LOAD MORE</StyledButton>
             </Wrapper>
