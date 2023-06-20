@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { NavLink } from 'react-router-dom';
 
 export const StyledHeader = styled.header`
+
   background-color:rgb(93, 63, 211);
   box-shadow: 0px 9px 8px 0px rgba(34, 60, 80, 0.2);
   top: 0;
@@ -16,7 +17,7 @@ export const StyledNav = styled.nav`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: 100%;
   height: 80px;
   font-weight: 700;
   font-size: 20px;

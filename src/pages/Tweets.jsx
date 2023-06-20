@@ -2,7 +2,9 @@ import { UsersList } from "components/UsersList/UsersList";
 
 const Tweets = () => {
     return (
-        <UsersList/>
+        <main>
+            <UsersList/>
+        </main>
     )
 }
 

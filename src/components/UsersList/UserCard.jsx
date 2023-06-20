@@ -5,42 +5,54 @@ import { IconCircle } from "icons/Circle"
 
 
 
-export const UserCard = ({users, user: {id, user, tweets, followers, avatar}})=> {
+export const UserCard = ({item})=> {
+    const {id, user, tweets, followers, avatar} = item;
     const [followersNum, setFollowersNum] = useState(followers);
     const [follow, setFollow] = useState(false);
-    const [usersArr, setUsersArr] = useState(users)
 
-    useEffect(() => {
-        localStorage.setItem('users', JSON.stringify(usersArr));
-
-    }, [usersArr])
+useEffect(() => {
+    const storage = JSON.parse(localStorage.getItem(`${id}`));
+    if(storage) {
+        setFollow(true);
+        setFollowersNum(storage.followers)
+    }
+}, [id])
 
 const handleFollow = () => {
     if(!follow) {
         setFollow(true);
         setFollowersNum(followersNum + 1)
+        localStorage.setItem(`${id}`, JSON.stringify({...item, follow: true, followers: followersNum + 1}));
     } else {
         setFollow(false);
         setFollowersNum(followersNum - 1)
+        localStorage.removeItem(`${id}`)
     }
 }
 
     return(
         <StyledLi>
+
             <LogoWrapper>
                 <LogoIcon/>
             </LogoWrapper>
+
             <BackgroundImage/>
             <Line/>
+
             <AvatarWrapper>
                 <IconCircle/>
             </AvatarWrapper>
+
             <UserAvatar src={avatar} alt={user}/>
+            
             <InfoWrapper>
                 <UserInfo>{tweets} tweets</UserInfo>
                 <UserInfo>{followersNum.toLocaleString('en-US')} followers</UserInfo>
             </InfoWrapper>
+
             <FollowBtn type='button' onClick={handleFollow} className={follow? 'active': null}>{follow? 'following': 'follow'}</FollowBtn>
+        
         </StyledLi>
     )
 }
